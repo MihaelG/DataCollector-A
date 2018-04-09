@@ -3,12 +3,15 @@ package mihael.galinac.com.datacollectora;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -21,10 +24,6 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 
 /**
  * Created by galin on 07-Apr-18.
@@ -47,7 +46,7 @@ public class MainActivityJava extends Activity implements SensorEventListener {
     private static final String fileName = "AnalysisData.csv";
     private String filePath = baseDir + File.separator + fileName;
 
-    private File file;
+    private File csvFile;
     FileWriter fileWriter;
 
     private SensorManager sensorManager;
@@ -57,7 +56,9 @@ public class MainActivityJava extends Activity implements SensorEventListener {
     private CSVWriter csvWriter;
 
     private TextView textViewData;
+    private TextView textViewData2;
     private Button stopButton;
+    private Button sendButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,12 +67,16 @@ public class MainActivityJava extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(this);
 
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         textViewData = findViewById(R.id.accData);
+        textViewData2 = findViewById(R.id.gyroData);
 
 //        file = new File(filePath);
         try {
-            fileWriter = new FileWriter(filePath, true);
-        } catch (IOException e) {
+            fileWriter = new FileWriter(filePath, false);
+        } catch(IOException e) {
             e.printStackTrace();
         }
 
@@ -81,7 +86,6 @@ public class MainActivityJava extends Activity implements SensorEventListener {
                 CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                 CSVWriter.DEFAULT_LINE_END);
 
-
         sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         sensorLinearAcceleration = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sensorGyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -90,12 +94,31 @@ public class MainActivityJava extends Activity implements SensorEventListener {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(true){
-                    Log.e("TAG", "onClick: bok");
-                }
+                csvFile = new File(filePath);
+//                try {
+//                    CSVReader csvReader = new CSVReader( new FileReader( filePath ) );
+//                } catch( FileNotFoundException e ) {
+//                    e.printStackTrace();
+//                }
             }
-        });
-
+        } );
+        sendButton = findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mgalinac@geof.hr"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Podaci s voznje");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Tip bicikla: ");
+                if(!csvFile.exists() || !csvFile.canRead()) {
+                    return;
+                }
+                Uri uri = Uri.fromFile(csvFile);
+                emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(emailIntent, "Pick an Email provider") );
+            }
+        } );
     }
 
     @Override
@@ -111,7 +134,7 @@ public class MainActivityJava extends Activity implements SensorEventListener {
                 SensorManager.SENSOR_DELAY_NORMAL);
 
         if (permissionGranted) {
-            String[] headerRecord = {"Name", "Email", "Phone", "Country"};
+            String[] headerRecord = {"AccX", "AccY", "AccZ", "AccT", "GyroX", "GyroY", "GyroZ"};
             if (csvWriter != null) {
                 csvWriter.writeNext(headerRecord);
             }
@@ -121,12 +144,14 @@ public class MainActivityJava extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(this);
-//        try {
-//            fileWriter.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        sensorManager.unregisterListener( this );
+        try {
+            if ( fileWriter != null ) {
+                fileWriter.close();
+            }
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -141,7 +166,7 @@ public class MainActivityJava extends Activity implements SensorEventListener {
                 double accT = (Math.sqrt(accX * accX + accY * accY + accZ * accZ));
 
                 textViewData.setText(String.valueOf(accT));
-                if (accX > 1.00 || accY > 1.00 || accZ > 1.00 || accT > 2.00) {
+                if (accX > 1.00 || accY > 1.00 || accZ > 1.00 || accT > 3.00) {
                     csvWriter.writeNext(new String[]{
                             String.valueOf(accX),
                             String.valueOf(accY),
@@ -156,11 +181,12 @@ public class MainActivityJava extends Activity implements SensorEventListener {
 
                 if (gyroX > 1 || gyroY > 1 || gyroZ > 1) {
                     csvWriter.writeNext(new String[]{
+                            "", "", "", "",
                             String.valueOf(gyroX),
                             String.valueOf(gyroY),
                             String.valueOf(gyroZ)});
                 }
-                textViewData.setText(String.valueOf(gyroX));
+                textViewData2.setText(String.valueOf(gyroX));
             }
         }
     }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.2"
+        android:orientation="vertical"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.8"
+        android:orientation="vertical"/>
+    <TextView
+        android:id="@+id/enterMail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Hvala Vam što ste pristali unaprijediti sigurnost biciklista."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/enterMailEdit"
+        app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
+        app:layout_constraintRight_toLeftOf="@id/guidelineRight"/>
+
+    <EditText
+        android:id="@+id/enterMailEdit"
+        android:hint="Enter mail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/enterMail"
+        app:layout_constraintBottom_toTopOf="@+id/radio"
+        app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
+        app:layout_constraintRight_toLeftOf="@id/guidelineRight"/>
+    <RadioButton
+        android:id="@+id/radio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
+        app:layout_constraintRight_toLeftOf="@id/guidelineRight"/>
+</android.support.constraint.ConstraintLayout>
