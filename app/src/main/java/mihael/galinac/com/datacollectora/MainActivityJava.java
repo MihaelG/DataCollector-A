@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,12 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by galin on 07-Apr-18.
@@ -59,6 +66,22 @@ public class MainActivityJava extends Activity implements SensorEventListener {
     private TextView textViewData2;
     private Button stopButton;
     private Button sendButton;
+
+    // dodano sa: https://stackoverflow.com/questions/18929929/convert-timestamp-into-current-date-in-android/18930056
+//    private Date getDate(long time) {
+//        Calendar cal = Calendar.getInstance();
+//        TimeZone tz = cal.getTimeZone();//get your local time zone.
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+//        sdf.setTimeZone(tz);//set time zone.
+//        String localTime = sdf.format(new Date(time) * 1000);
+//        Date date = new Date();
+//        try {
+//            date = sdf.parse(localTime);//get local date
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return date;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,7 +133,8 @@ public class MainActivityJava extends Activity implements SensorEventListener {
                 emailIntent.setType("text/plain");
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mgalinac@geof.hr"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Podaci s voznje");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "Tip bicikla: ");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Dopišite ako ste promijenili \n" +
+                        "- tip bicikla: \n" + "- položaj pametnog telefona: ");
                 if(!csvFile.exists() || !csvFile.canRead()) {
                     return;
                 }
@@ -134,7 +158,7 @@ public class MainActivityJava extends Activity implements SensorEventListener {
                 SensorManager.SENSOR_DELAY_NORMAL);
 
         if (permissionGranted) {
-            String[] headerRecord = {"AccX", "AccY", "AccZ", "AccT", "GyroX", "GyroY", "GyroZ"};
+            String[] headerRecord = {"AccX", "AccY", "AccZ", "AccT", "AccTime", "GyroX", "GyroY", "GyroZ", "GyroTime"};
             if (csvWriter != null) {
                 csvWriter.writeNext(headerRecord);
             }
@@ -164,6 +188,7 @@ public class MainActivityJava extends Activity implements SensorEventListener {
                 float accY = event.values[1];
                 float accZ = event.values[2];
                 double accT = (Math.sqrt(accX * accX + accY * accY + accZ * accZ));
+                float timeStamp = (event.timestamp)/1000000000;
 
                 textViewData.setText(String.valueOf(accT));
                 if (accX > 1.00 || accY > 1.00 || accZ > 1.00 || accT > 3.00) {
@@ -171,20 +196,24 @@ public class MainActivityJava extends Activity implements SensorEventListener {
                             String.valueOf(accX),
                             String.valueOf(accY),
                             String.valueOf(accZ),
-                            String.valueOf(accT)});
+                            String.valueOf(accT),
+                            String.valueOf(timeStamp)});
                 }
             } else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
                 Log.e("TAGGYROSCOPE", "poruke " + event.values[0]);
                 float gyroX = event.values[0];
                 float gyroY = event.values[1];
                 float gyroZ = event.values[2];
+                float timeStampG = (event.timestamp)/1000000000;
 
                 if (gyroX > 1 || gyroY > 1 || gyroZ > 1) {
                     csvWriter.writeNext(new String[]{
-                            "", "", "", "",
+                            "", "", "", "", "",
                             String.valueOf(gyroX),
                             String.valueOf(gyroY),
-                            String.valueOf(gyroZ)});
+                            String.valueOf(gyroZ),
+                            String.valueOf(timeStampG)
+                    });
                 }
                 textViewData2.setText(String.valueOf(gyroX));
             }
