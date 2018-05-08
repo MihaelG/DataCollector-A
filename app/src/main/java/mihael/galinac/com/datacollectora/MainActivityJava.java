@@ -2,36 +2,21 @@ package mihael.galinac.com.datacollectora;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.opencsv.CSVWriter;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by galin on 07-Apr-18.
@@ -75,10 +60,7 @@ public class MainActivityJava extends Activity  {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-//        textViewData = findViewById(R.id.accData);
-//        textViewData2 = findViewById(R.id.gyroData);
 
-//        file = new File(filePath);
         try {
             fileWriter = new FileWriter(filePath, false);
         } catch(IOException e) {
@@ -196,24 +178,18 @@ public class MainActivityJava extends Activity  {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     permissionGranted = true;
-                    // permission was granted, yay! Do the
+                    // permission was granted. Do the
                     // contacts-related task you need to do.
 
                 } else {
 
                     finish();
 
-                    // permission denied, boo! Disable the
+                    // permission denied,  Disable the
                     // functionality that depends on this permission.
                 }
                 return;
             }
-//            case REQUEST_STORAGE: {
-//
-//            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 }
