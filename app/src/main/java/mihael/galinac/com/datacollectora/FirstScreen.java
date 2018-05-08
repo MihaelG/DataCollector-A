@@ -22,15 +22,16 @@ public class FirstScreen extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.screen_first);
-        tipBiciklaText = findViewById(R.id.tipBicikla);
+
+
+
+//        tipBiciklaText = findViewById(R.id.tipBicikla);
         daljeBut = findViewById(R.id.daljeBut);
 
-        cb1 = (CheckBox) findViewById(R.id.CB1);
-        cb2 = (CheckBox) findViewById(R.id.CB2);
-        cb3 = (CheckBox) findViewById(R.id.CB3);
+//        cb1 = findViewById(R.id.CB1);
+//        cb2 = findViewById(R.id.CB2);
+//        cb3 = findViewById(R.id.CB3);
 
         daljeBut.setOnClickListener(new View.OnClickListener() {
             @Override

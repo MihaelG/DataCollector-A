@@ -22,80 +22,38 @@
     <TextView
         android:id="@+id/enterMail"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
         android:text="Hvala Vam što ste pristali unaprijediti sigurnost biciklista!"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/enterPosition"
+        android:textSize="24sp"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
         app:layout_constraintRight_toLeftOf="@id/guidelineRight"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/enterPosition"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:hint="Gdje držite pametni telefon tokom vožnje?"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
-        app:layout_constraintRight_toLeftOf="@id/guidelineRight"
-        app:layout_constraintTop_toBottomOf="@id/enterMail" />
 
     <Button
         android:id="@+id/daljeBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Kreni"
+        android:text="Kreni/Nastavi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/guidelineLeft" />
 
     <TextView
-        android:id="@+id/tipBicikla"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Odaberite tip bicikla"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/enterPosition" />
-
-    <CheckBox
-        android:id="@+id/CB1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Cestovni bicikl"
+        android:layout_marginTop="100dp"
+        android:text="Prilikom prvog slanja maila molim upisati tip bicikla (cestovni, trekking, mtb) i poziciju pametnog telefona na tijelu ili biciklu, a ubuduće napisati samo u slučaju promjene.\n (U slučaju pada, svakako također dopisati u mail.)"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/tipBicikla" />
+        app:layout_constraintTop_toBottomOf="@+id/enterMail" />
 
-    <CheckBox
-        android:id="@+id/CB2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Trekking"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/CB1" />
-
-    <CheckBox
-        android:id="@+id/CB3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="MTB"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/CB2" />
 </android.support.constraint.ConstraintLayout>

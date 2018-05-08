@@ -84,14 +84,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
             //JEL ME JEBENO JEBEŠ DA JE TREBALO KONVERTAT U DOUBLE ONO KAJ JE VEĆ BILO DOUBLE!?!??!?!?
 
-            accData.text = "X= $accX \n" +
-                    "Y=  $accY \n" +
-                    "Z=  $accZ \n" +
-                    "AT= $accT \n" +
-                    "AXmax= $accXm \n" +
-                    "AYmax= $accYm \n" +
-                    "AZmax= $accZm \n" +
-                    "ATmax= $accTm \n"
+//            accData.text = "X= $accX \n" +
+//                    "Y=  $accY \n" +
+//                    "Z=  $accZ \n" +
+//                    "AT= $accT \n" +
+//                    "AXmax= $accXm \n" +
+//                    "AYmax= $accYm \n" +
+//                    "AZmax= $accZm \n" +
+//                    "ATmax= $accTm \n"
         }
         if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
             val gyroX = event.values[0].toDouble()
@@ -111,12 +111,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
 
 
-            gyroData.text = "X= $gyroX \n" +
-                    "Y=  $gyroY \n" +
-                    "Z=  $gyroZ \n" +
-                    "GyroXmax= $gyroXm \n" +
-                    "GyroYmax= $gyroYm \n" +
-                    "GyroZmax= $gyroZm \n"
+//            gyroData.text = "X= $gyroX \n" +
+//                    "Y=  $gyroY \n" +
+//                    "Z=  $gyroZ \n" +
+//                    "GyroXmax= $gyroXm \n" +
+//                    "GyroYmax= $gyroYm \n" +
+//                    "GyroZmax= $gyroZm \n"
         }
     }
 

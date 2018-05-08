@@ -16,17 +16,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".FirstScreen">
+        <activity
+            android:name=".FirstScreen"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivityJava"></activity>
-        <activity android:name=".MainActivity">
-
+        <activity
+            android:name=".MainActivityJava"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleInstance">
         </activity>
+        <activity android:name=".KlaunActivity"></activity>
+        <activity android:name=".MainActivity">
+            
+        </activity>
+        <service android:name=".SensorService"/>
     </application>
 
 </manifest>
